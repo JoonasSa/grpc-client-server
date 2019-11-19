@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+service UrlService {
+    // bidirectional stream that consumes urls and returns their contents
+    rpc GetUrlContentStream(stream UrlRequest) returns (stream RawDataResponse) {}
+}
+
+message UrlRequest {
+    required string url = 1;
+    required bool isLastRequest = 2;
+    uint32 requestMadeTotal = 3;
+}
+
+message RawDataResponse {
+    required string data = 1;
+    required string url = 2;
+    required string statusCode = 3;
+}
