@@ -3,7 +3,7 @@ const grpcLibrary = require('grpc');
 const request = require('request');
 
 const PROTO_FILE_PATH = '.proto';
-const PORT_NUMBER = process.env.PORT_NUMBER || 50051;
+const PORT_NUMBER = process.env.PORT_NUMBER || 9000;
 
 const protoLoaderOptions = {
     keepCase: true, // preserver field names as is

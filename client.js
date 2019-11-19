@@ -2,7 +2,7 @@ const protoLoader = require('@grpc/proto-loader');
 const grpcLibrary = require('grpc');
 
 const PROTO_FILE_PATH = '.proto';
-const PORT_NUMBER = 50051;
+const PORT_NUMBER = 9000;
 
 const NUM_OF_REQUEST = 10;
 
