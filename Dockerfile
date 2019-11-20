@@ -13,6 +13,7 @@ RUN apt-get update && apt-get install -y curl bash git && \
 
 WORKDIR /app
 
-ENV PORT_NUMBER=9000
+ENV HOST_NAME=localhost
+ENV PORT_NUMBER=5000
 
 CMD ["node", "server.js"]

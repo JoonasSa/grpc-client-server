@@ -3,7 +3,8 @@ const grpcLibrary = require('grpc');
 const request = require('request');
 
 const PROTO_FILE_PATH = '.proto';
-const PORT_NUMBER = process.env.PORT_NUMBER || 9000;
+const HOST_NAME = process.env.HOST_NAME || 'localhost';
+const PORT_NUMBER = parseInt(process.env.PORT_NUMBER, 10) || 9000;
 
 const protoLoaderOptions = {
     keepCase: true, // preserver field names as is
@@ -58,7 +59,10 @@ const manageUrlStream = (connection) => {
             }
         });
     });
-    // TODO: when is this called?
+    connection.on('end', () => {
+        console.log('Client terminated connection');
+        connection.end();
+    });
     connection.on('error', function(e) {
         console.error(`Error occurred while streaming: ${e}`);
     });
@@ -71,14 +75,14 @@ server.addService(urlService, {
 });
 
 // try to bind the server to a port and then run it 
-server.bindAsync(`localhost:${PORT_NUMBER}`, grpcLibrary.ServerCredentials.createInsecure(), (error, port) => {
+server.bindAsync(`${HOST_NAME}:${PORT_NUMBER}`, grpcLibrary.ServerCredentials.createInsecure(), (error, port) => {
     if (error) {
         console.error('Run into following error while trying to bind port to server:', error);
         process.exit(1);
     }
     if (port !== PORT_NUMBER) {
         console.error(`Couldn\'t bind port to ${PORT_NUMBER}`);
-        process.exit(2);
+        process.exit(1);
     }
     console.log(`Server listening in port ${port}`);
     server.start();
