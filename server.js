@@ -7,7 +7,7 @@ const HOST_NAME = process.env.HOST_NAME || 'localhost';
 const PORT_NUMBER = parseInt(process.env.PORT_NUMBER, 10) || 9000;
 
 const protoLoaderOptions = {
-    keepCase: true, // preserver field names as is
+    keepCase: true, // preserve field names as is
 };
 
 const packageDefinition = protoLoader.loadSync(PROTO_FILE_PATH, protoLoaderOptions);
@@ -23,7 +23,7 @@ const manageUrlStream = (connection) => {
 
     connection.on('data', (req) => {
 
-        console.log('server received', req);
+        console.log('Server received', req);
 
         if (req.isLastRequest) {
             requestMadeTotal = req.requestMadeTotal;

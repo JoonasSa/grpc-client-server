@@ -2,17 +2,18 @@ const protoLoader = require('@grpc/proto-loader');
 const grpcLibrary = require('grpc');
 
 const PROTO_FILE_PATH = '.proto';
+const HOST_NAME = 'localhost';
 const PORT_NUMBER = 5000;
 
 const NUM_OF_REQUEST = 100;
 
 const protoLoaderOptions = {
-    keepCase: true, // preserver field names as is
+    keepCase: true, // preserve field names as is
 };
 
 const packageDefinition = protoLoader.loadSync(PROTO_FILE_PATH, protoLoaderOptions);
 const packageObject = grpcLibrary.loadPackageDefinition(packageDefinition);
-const client = new packageObject.UrlService(`localhost:${PORT_NUMBER}`, grpcLibrary.credentials.createInsecure());
+const client = new packageObject.UrlService(`${HOST_NAME}:${PORT_NUMBER}`, grpcLibrary.credentials.createInsecure());
 
 const convertToProtoBufObject = (urls) => {
     return urls.map((url, index) => {
@@ -50,7 +51,7 @@ const runUrlStream = (urls) => {
     convertToProtoBufObject(urls).forEach((url) => {
         setTimeout(() => {
             if (!stopSending) {
-                console.log('client sending', url); 
+                console.log('Client sending', url);
                 connection.write(url);
             }
         }, 100 * Math.random());
